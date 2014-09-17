@@ -3,7 +3,8 @@
 #include<stdbool.h>
 
 #define SIZE 65356
-#define INFTY 10
+#define INFTY 10.0
+
 
 
 typedef struct vertex
@@ -20,6 +21,9 @@ typedef struct queue
 }
   queue;
 
+//TODO: THIS SEEMS BAD PUT ON TOP YO
+void heapify(queue* Q, int index);
+
 void swap(vertex* v1, vertex* v2)
 {
   vertex temp = *v1;
@@ -27,7 +31,7 @@ void swap(vertex* v1, vertex* v2)
   *v2 = temp;
 }
 
-queue* init()
+queue init()
 {
   queue Q;
   Q.last = SIZE - 1;
@@ -35,16 +39,17 @@ queue* init()
   // fill the queues with vertices
   for (int i=0;i<SIZE;i++)
   {
-    Q.heap[i] = {INFTY,i,2*i+1,2*i+2}; 
+    Q.heap[i] = (vertex) {INFTY,i}; 
   }
-  return &Q;
+  return Q;
 }
 
 
 vertex delMin(queue* Q)
 {
-  min = (Q->heap)[0];
-  swap((Q->heap)[0],(Q->heap)[Q->last]);
+  vertex min = (Q->heap)[0];
+  // passes into swap the address of the root of Q and the last leaf
+  swap(&(Q->heap)[0],&(Q->heap)[Q->last]);
   Q->last -= 1;
   heapify(Q,0);
   return min;
@@ -56,20 +61,20 @@ void heapify(queue* Q, int index)
   if (Q->last < 0)
     return;
 
-  left = 2*index + 1;
-  right = 2*index + 2;
-  last = index;
+  int left = 2*index + 1;
+  int right = 2*index + 2;
+  int last = index;
 
   // if our vertex has children and the left child is smaller
-  if (left <= Q->last && (Q->heap)[left] < (Q->heap)[Q->last])
+  if (left <= Q->last && (Q->heap)[left].dist < (Q->heap)[Q->last].dist)
     last = left;
   // if vertex has children and the right child is smaller
-  if (right <= Q->last && (Q->heap)[right] < (Q->heap)[Q->last])
+  if (right <= Q->last && (Q->heap)[right].dist < (Q->heap)[Q->last].dist)
     last = right;
   // if we found a smaller value, put it at the top 
   if (last != index)
   {
-    swap(&((Q->heap)[index]),&((Q->heap)[last]);
+    swap(&((Q->heap)[index]),&((Q->heap)[last]));
     heapify(Q,last);
   }
   // if no switches were made, our heap is balanced
@@ -80,7 +85,7 @@ void heapify(queue* Q, int index)
 //technically fixHeap because the queue we're 'building' isn't really a heap
 void buildHeap(queue* Q)
 {
-  for(int i = (Q->last - 1)/2; i--; i>=0)
+  for(int i = (Q->last - 1)/2; i>=0; i--)
   {
     heapify(Q, i);
   }
