@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// g = weights matrix
 float Prim(queue* Q, float **g)
 {
 	//Take seed to be the first vertex in heap array. Change its distance from the tree to be 0.

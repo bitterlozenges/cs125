@@ -9,11 +9,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-
+#include "queue.h"
 
 float dist(float a[], float b[], int dim);
-
-float prim(float** verts, float** weights, int numpoints, int dimension); 
 
 void printMat(float** mat, int x_dim, int y_dim);
 
@@ -85,31 +83,20 @@ int main(int argc, char **argv)
 		}
 
 		// TODO: define prim
-		float treeweight = prim(verts, weights, n, dimension);
+		queue* Q = init(n);
+
+		float treeweight = Prim(Q, weights);
 
 		totalweight += treeweight;
 
 	}
 
-	printf("The average weight of a %i-dimensional minimum spanning tree with with %i verticies is: \n", dimension, n);
-	printf("%f", totalweight / numtrials);
+	// printf("The average weight of a %i-dimensional minimum spanning tree with with %i verticies is: \n", dimension, n);
+	printf("%f %i %i %i", totalweight / numtrials, n, numtrials, dimension);
 
 	
 
 
-}
-
-float prim(float** verts, float** weights, int numpoints, int dimension)
-{
-	float sum = 0;
-	for (int i=0; i < numpoints ; i++)
-	{	
-		for(int j=0; j < numpoints; j++)
-		{
-			sum+= weights[i][j];
-		}
-	}
-	return sum;
 }
 
 
