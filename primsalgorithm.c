@@ -1,4 +1,6 @@
-//q gets initialized
+#include <stdio.h>
+#include <stdlib.h>
+
 float Prim(vertex *q, g)
 {
 	deckey(q, 0, 0);
