@@ -86,3 +86,12 @@ void heapify(queue* Q, int index)
   return;
 
 }
+
+//technically fixHeap because the queue we're 'building' isn't really a heap
+void buildHeap(queue* Q)
+{
+  for(int i = (Q->last - 1)/2; i--; i>=0)
+  {
+    heapify(Q, i);
+  }
+}
