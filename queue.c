@@ -90,3 +90,11 @@ void buildHeap(queue* Q)
     heapify(Q, i);
   }
 }
+
+//decrease key of vertex at index
+void decKey(queue* Q, int index, float newDist)
+{
+  vertex v=(Q->heap)[index];  
+  vertex u={newDist, v.val};
+  (Q->heap)[index]= u;
+}
