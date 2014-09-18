@@ -105,6 +105,16 @@ int main(int argc, char **argv)
 
 		totalweight += treeweight;
 
+		// free willy
+		for (int i = 0; i < n; i++)
+		{
+			free(weights[i]);
+			free(verts[i]);
+		}
+
+		free(verts);
+		free(weights);
+
 	}
 
 	// printf("The average weight of a %i-dimensional minimum spanning tree with with %i verticies is: \n", dimension, n);
