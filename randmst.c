@@ -96,7 +96,7 @@ int main(int argc, char **argv)
 	}
 
 	// printf("The average weight of a %i-dimensional minimum spanning tree with with %i verticies is: \n", dimension, n);
-	printf("%f %i %i %i", totalweight / numtrials, n, numtrials, dimension);
+	printf("%f %i %i %i \n", totalweight / numtrials, n, numtrials, dimension);
 
 	
 
