@@ -3,6 +3,21 @@
 #include <stdbool.h>
 #include "queue.h"
 
+/*
+ * n represents number of vertices
+ */
+queue init(int n)
+{
+  queue Q;
+  Q.last = n - 1;
+
+  // fill the queues with vertices
+  for (int i=0; i<n ; i++)
+  {
+    Q.heap[i] = (vertex) {INFTY , i}; 
+  }
+  return Q;
+}
 
 //TODO: THIS SEEMS BAD PUT ON TOP YO
 void heapify(queue* Q, int index);

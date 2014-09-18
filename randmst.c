@@ -11,9 +11,12 @@
 #include <math.h>
 #include "queue.h"
 
+
 float dist(float a[], float b[], int dim);
 
 void printMat(float** mat, int x_dim, int y_dim);
+
+float Prim(queue* Q, float **g);
 
 // argv = ["randmst", 0, numpoints, numtrials, dimension]
 int main(int argc, char **argv)
@@ -83,7 +86,8 @@ int main(int argc, char **argv)
 		}
 
 		// TODO: define prim
-		queue* Q = init(n);
+		queue q = (init(n));
+		queue* Q = &q;
 
 		float treeweight = Prim(Q, weights);
 
@@ -98,7 +102,6 @@ int main(int argc, char **argv)
 
 
 }
-
 
 //calculates the euclidean distance between two points of dimension "dim"
 float dist(float a[], float b[], int dim)
@@ -123,6 +126,36 @@ void printMat(float** mat, int x_dim, int y_dim)
 		printf("\n");
 	}
 }
+
+float Prim(queue* Q, float **g)
+{
+	//Take seed to be the first vertex in heap array. Change its distance from the tree to be 0.
+	decKey(Q, 0, 0);
+	//delete this vertex from "v-s"
+	delMin(Q);
+	
+	//initialize the weight of the MST so far to 0.
+	float weight=0;
+
+	//while the heap isn't empty, delete the minimum element and update the
+	// remaining vertices distances from the working tree S
+	while (Q->last >=0)
+	{
+		vertex u = delMin(Q);
+		weight += u.dist;
+		for (int i=0; i<=Q->last; i++)
+		{
+			vertex v=(Q->heap)[i];
+			int distFromU = g[v.val][u.val];
+			if(distFromU < v.dist)
+				decKey(Q,i, distFromU);
+		}
+		buildHeap(Q);
+	}
+	return weight;
+}	
+
+
 
 
 

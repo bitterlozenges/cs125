@@ -29,18 +29,7 @@ typedef struct queue
 /*
  * n represents number of vertices
  */
-queue init(int n)
-{
-  queue Q;
-  Q.last = n - 1;
-
-  // fill the queues with vertices
-  for (int i=0; i<n ; i++)
-  {
-    Q.heap[i] = (vertex) {INFTY , i}; 
-  }
-  return Q;
-}
+queue init(int n);
 
 //TODO: THIS SEEMS BAD PUT ON TOP YO
 void heapify(queue* Q, int index);
