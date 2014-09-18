@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 		}
 
 
-		// initialize the verticies array
+		// initialize the vertices array
 		for (int i = 0; i < n; i++)
 		{
 			for(int j = 0; j < dimension; j++)
@@ -108,7 +108,7 @@ int main(int argc, char **argv)
 	}
 
 	// printf("The average weight of a %i-dimensional minimum spanning tree with with %i verticies is: \n", dimension, n);
-	printf("%f %i %i %i", totalweight / numtrials, n, numtrials, dimension);
+	printf("%f %i %i %i \n", totalweight / numtrials, n, numtrials, dimension);
 
 	
 
@@ -144,7 +144,7 @@ float Prim(queue* Q, float **g)
 	//Take seed to be the first vertex in heap array. Change its distance from the tree to be 0.
 	decKey(Q, 0, 0);
 	//delete this vertex from "v-s"
-	delMin(Q);
+	//delMin(Q);
 	
 	//initialize the weight of the MST so far to 0.
 	float weight=0;
