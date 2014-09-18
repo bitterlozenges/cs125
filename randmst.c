@@ -24,7 +24,7 @@ int main(int argc, char **argv)
 	// ensure correct usage
 	if (argc != 5)
 	{
-		printf("Usage: ./randmst 0 numpoints numtrials dimension");
+		printf("Usage: ./randmst 0 numpoints numtrials dimension \n");
 		return -1;
 	}
 
