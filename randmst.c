@@ -24,9 +24,11 @@ int main(int argc, char **argv)
 	// ensure correct usage
 	if (argc != 5)
 	{
-		printf("Usage: ./randmst 0 numpoints numtrials dimension");
+		printf("Usage: ./randmst 0 numpoints numtrials dimension\n");
 		return -1;
 	}
+
+	
 
 	//TODO: check to see these are integers
 	int dimension = atoi(argv[4]);
@@ -48,6 +50,8 @@ int main(int argc, char **argv)
 		// the array of verticies (each entry is an array)
 		float** verts = malloc(n*sizeof(float*));
 
+
+
 		// initialize the weights matrix;
 		float** weights = malloc(n*sizeof(float*));
 
@@ -67,10 +71,14 @@ int main(int argc, char **argv)
 			}
 		}
 
+		// for debugging
+		printf("\nprinting verticies:\n");
+		printMat(verts, n, dimension);
+
 		// populate the weights array with the euclidean distances
-		for (int i=0; i < n; i++)
+		for (int i = 0; i < n; i++)
 		{
-			for(int j=0; j<i; j++)
+			for(int j=0; j < i; j++)
 			{
 				float* v1 = verts[i];
 				float* v2 = verts[j];
@@ -84,12 +92,16 @@ int main(int argc, char **argv)
 			}
 			weights[i][i] = 0;
 		}
+		// for debugging
+		printf("\nprinting weights:\n");
+		printMat(weights, n, n);
 
 		// TODO: define prim
 		queue q = (init(n));
 		queue* Q = &q;
 
 		float treeweight = Prim(Q, weights);
+		printf("treeweight: %f", treeweight);
 
 		totalweight += treeweight;
 
@@ -136,6 +148,7 @@ float Prim(queue* Q, float **g)
 	
 	//initialize the weight of the MST so far to 0.
 	float weight=0;
+	printf("%f\n", weight);
 
 	//while the heap isn't empty, delete the minimum element and update the
 	// remaining vertices distances from the working tree S
@@ -143,10 +156,12 @@ float Prim(queue* Q, float **g)
 	{
 		vertex u = delMin(Q);
 		weight += u.dist;
+		printf("weight in Prim: %f\n", weight);
 		for (int i=0; i<=Q->last; i++)
 		{
 			vertex v=(Q->heap)[i];
 			float distFromU = g[v.val][u.val];
+			printf("distFromU: %f\n", distFromU);
 			if(distFromU < v.dist)
 				decKey(Q,i, distFromU);
 		}
