@@ -146,7 +146,7 @@ float Prim(queue* Q, float **g)
 		for (int i=0; i<=Q->last; i++)
 		{
 			vertex v=(Q->heap)[i];
-			int distFromU = g[v.val][u.val];
+			float distFromU = g[v.val][u.val];
 			if(distFromU < v.dist)
 				decKey(Q,i, distFromU);
 		}
