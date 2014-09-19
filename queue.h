@@ -9,13 +9,14 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 #define INFTY 10.0
+#define SIZE 65536
 
 /*
  * n represents number of vertices
  */
-queue init(int n);
+float* init(int n);
 
-int delMin(float* Q);
+int delMin(float* Q, int n);
 
 //decrease key of vertex at index
 void decKey(float* Q, int index, float newDist);
