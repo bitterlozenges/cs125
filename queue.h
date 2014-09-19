@@ -10,12 +10,12 @@
 #define QUEUE_H
 
 #define SIZE 65356
-#define INFTY 10.0
+
 
 
 typedef struct vertex
 {
-  float dist_from_S;
+  float distFromS;
   AdjListNode* adjacentVertices;
 
 } vertex;
