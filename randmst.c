@@ -16,7 +16,7 @@ float sq_dist(float a[], float b[], int dim);
 
 void printMat(float** mat, int x_dim, int y_dim);
 
-float Prim(queue* Q, float **g);
+float Prim(float* Q, float **g, int n);
 
 // argv = ["randmst", 0, numpoints, numtrials, dimension]
 int main(int argc, char **argv)
@@ -97,12 +97,11 @@ int main(int argc, char **argv)
 		// printMat(weights, n, n);
 
 		// TODO: define prim
-		queue q = (init(n));
-		queue* Q = &q;
+		float* Q = (init(n));
 
-		float treeweight = Prim(Q, weights);
+		float treeweight = Prim(Q, weights, numpoints);
 		//for debugging
-		// printf("treeweight: %f\n", treeweight);
+		printf("treeweight: %f\n", treeweight);
 
 		totalweight += treeweight;
 
@@ -150,36 +149,31 @@ void printMat(float** mat, int x_dim, int y_dim)
 	}
 }
 
-float Prim(queue* Q, float **g)
+float Prim(float* Q, float **g, int n)
 {
-	//Take seed to be the first vertex in heap array. Change its distance from the tree to be 0.
-	//decKey(Q, 0, 0);
-	//delete this vertex from "v-s"
-	//delMin(Q);
-	
 	//initialize the weight of the MST so far to 0.
 	float weight=0;
 
 	//while the heap isn't empty, delete the minimum element and update the
 	// remaining vertices distances from the working tree S
-	for (int j=0; j< (Q->length);j++)
+	for (int j=0; j< n;j++)
 	{
 		int ind = delMin(Q);
 
 		// printf("ind: %d \n", ind);
 
-		float min = (Q->heap)[ind];
-		(Q->heap)[ind] = -1;
+		float min = Q[ind];
+		Q[ind] = -1;
 		weight += sqrt(min);
 
 		// printf("%f \n", weight);
 
-		for (int i=0; i<Q->length; i++)
+		for (int i=0; i<n; i++)
 		{
 			float distFromU = g[ind][i];
-			if(distFromU < (Q ->heap)[i])
+			if(distFromU < Q[i])
 				//decKey(Q,i, distFromU);
-				(Q->heap)[i]=distFromU;
+				Q[i]=distFromU;
 		}
 	}
 	return weight;
