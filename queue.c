@@ -51,10 +51,10 @@ void heapify(queue* Q, int index)
   int current = index;
 
   // if our vertex has children and the left child is smaller
-  if (left <= Q->last && (Q->heap)[left].dist < (Q->heap)[Q->last].dist)
+  if (left <= Q->last && (Q->heap)[left].dist < (Q->heap)[current].dist)
     current = left;
   // if vertex has children and the right child is smaller
-  if (right <= Q->last && (Q->heap)[right].dist < (Q->heap)[Q->last].dist)
+  if (right <= Q->last && (Q->heap)[right].dist < (Q->heap)[current].dist)
     current = right;
   // if we found a smaller value, put it at the top 
   if (current != index)
