@@ -10,6 +10,7 @@
 #include <time.h>
 #include <math.h>
 #include "queue.h"
+#define INFTY 10.0
 
 
 float sq_dist(float a[], float b[], int dim);
@@ -66,11 +67,50 @@ int main(int argc, char **argv)
 		queue q = (init(n));
 		queue* Q = &q;
 
+		// populate graph Graph
+		vertex* Graph= malloc(n*sizeof(vertex));
+
+		for (int i = 0; i < n; i++)
+		{
+			vertex v = {INFTY, NULL}
+			Graph[i]=v;
+
+			for(int j = 0; j < i; j++)
+			{
+				float squareDistance = sq_dist(verts[i], verts[j], dimension);
+				if(squareDistance<cutoff)
+				{
+					AdjListNode* jNodePtr= newAdjListNode(j, squareDistance);
+					AdjListNode* iNodePtr= newAdjListNode(j, squareDistance);
+					if(!Graph[i].adjacentVertices)
+					{
+						Graph[i].adjacentVertices=jNodePtr;
+
+					}
+					else
+					{
+						jNodePtr -> next = Graph[i].adjacentVertices;
+						Graph[i].adjacentVertices= jNodePtr;
+					}
+					if(Graph[j].adjacentVertices)
+					{
+						Graph[j].adjacentVertices=iNodePtr;
+
+					}
+					else
+					{
+						iNodePtr -> next = Graph[j].adjacentVertices;
+						Graph[j].adjacentVertices=iNodePtr;
+					}
+				}
+			}
+		}
+
 
 		// populate the weights array with the euclidean distances
 		// also build adjacency lists
 
-		float treeweight = Prim(Q, weights);
+		float treeweight = Prim(Q, Graph);
 		totalweight += treeweight;
 
 		// free willy
@@ -80,6 +120,7 @@ int main(int argc, char **argv)
 		}
 
 		free(verts);
+		free(Graph);
 
 	}
 
