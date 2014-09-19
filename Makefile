@@ -24,5 +24,5 @@ $(EXE): $(OBJS) $(HDRS) Makefile
 # dependencies--tells compiler that objs depends on headers
 $(OBJS): $(HDRS) Makefile
 
-clean:
+clean: 
 	rm -f core $(EXE) *.o
