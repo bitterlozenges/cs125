@@ -17,7 +17,7 @@ float* init(int n)
   }
   Q[0]= 0.0;
   return Q;
-}
+} 
 
 
 
