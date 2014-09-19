@@ -15,15 +15,25 @@
 
 typedef struct vertex
 {
-  float dist;
-  int val;
+  float dist_from_S;
+  AdjListNode* adjacentVertices;
+
 } vertex;
 
 typedef struct queue
 {
   int last;
-  vertex heap[SIZE];
+  // contains the indicies of vertex in verts[]
+  int heap[SIZE];
 } queue;
+
+typedef struct AdjListNode
+{
+	// contains the index of vertex in verts[]
+    int self;
+    float edgeLength;
+    struct AdjListNode* next;
+};
 
 
 /*
@@ -45,6 +55,8 @@ void buildHeap(queue* Q);
 
 //decrease key of vertex at index
 void decKey(queue* Q, int index, float newDist);
+
+AdjListNode* newAdjListNode(int dest)
 
 
 #endif
