@@ -17,7 +17,7 @@ float sq_dist(float a[], float b[], int dim);
 
 void printMat(float** mat, int x_dim, int y_dim);
 
-float Prim(queue* Q, float **g);
+float Prim(queue* Q, vertex* Graph);
 
 // argv = ["randmst", 0, numpoints, numtrials, dimension]
 int main(int argc, char **argv)
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 
 		for (int i = 0; i < n; i++)
 		{
-			vertex v = {INFTY, NULL}
+			vertex v = {INFTY, NULL};
 			Graph[i]=v;
 
 			for(int j = 0; j < i; j++)

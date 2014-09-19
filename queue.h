@@ -55,9 +55,9 @@ void heapify(queue* Q, int index);
 void buildHeap(queue* Q);
 
 //decrease key of vertex at index
-void decKey(queue* Q, int index, float newDist);
+void decKey(vertex* G, int index, float newDist);
 
-AdjListNode* newAdjListNode(int dest);
+AdjListNode* newAdjListNode(int s, float e);
 
 
 #endif
