@@ -43,18 +43,27 @@ int main(int argc, char **argv)
 	// store the sum of the weights, to be divided by numtrials later
 	float totalweight = 0;
 
-	float cutoff= 9.0*((float)dimension)/((float) n+1);
+	float cutoff= 8.0*((float)dimension)/((float) n+1);
+
+	// the array of vertices (each entry is an array)
+	float** verts = malloc(n*sizeof(float*));
+
+	// initialize the vertices array
+	for (int i = 0; i < n; i++)
+	{
+		verts[i] = malloc(dimension*sizeof(float));
+	}
+
+	// populate graph Graph
+	vertex* Graph= malloc(n*sizeof(vertex));
 
 	// perform numtrials number of trials and add weight to totalweight
 	for (int t = 0; t < numtrials; t++ )
 	{
-		// the array of vertices (each entry is an array)
-		float** verts = malloc(n*sizeof(float*));
 
 		// initialize the vertices array
 		for (int i = 0; i < n; i++)
 		{
-			verts[i] = malloc(dimension*sizeof(float));
 			for(int j = 0; j < dimension; j++)
 			{
 				verts[i][j] = (float)rand()/(float)RAND_MAX;
@@ -62,13 +71,10 @@ int main(int argc, char **argv)
 		}
 
 
-
 		// TODO: define prim
 		queue q = init(n);
 		queue* Q = &q;
 
-		// populate graph Graph
-		vertex* Graph= malloc(n*sizeof(vertex));
 
 		for (int i = 0; i < n; i++)
 		{
@@ -113,17 +119,28 @@ int main(int argc, char **argv)
 		float treeweight = Prim(Q, Graph);
 		totalweight += treeweight;
 
-		// free willy
+		// free shit
 		for (int i = 0; i < n; i++)
 		{
-			free(verts[i]);
+			AdjListNode* trash = Graph[i].adjacentVertices;
+			while(!trash)
+			{
+				AdjListNode* t = trash->next;
+				free(trash);
+				trash = t;
+			}
 		}
-
-		free(verts);
-		free(Graph);
+		
 
 	}
-	printf("%f\n", totalweight);
+	// free willy
+	for (int i = 0; i < n; i++)
+	{
+		free(verts[i]);
+	}
+	free(verts);
+	free(Graph);
+	// printf("%f\n", totalweight);
 	// printf("The average weight of a %i-dimensional minimum spanning tree with with %i verticies is: \n", dimension, n);
 	printf("%f %i %i %i \n", totalweight / numtrials, n, numtrials, dimension);
 
