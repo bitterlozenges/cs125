@@ -8,7 +8,7 @@
  */
 float* init(int n)
 {
-  float Q[n]={};
+  float* Q = malloc(sizeof(float)*n);
 
   // fill the array with distance from S
   for (int i=0; i<n ; i++)
@@ -21,17 +21,17 @@ float* init(int n)
 
 
 
-int delMin(float* Q)
+int delMin(float* Q, int n)
 {
   // passes into swap the address of the root of Q and the last leaf
   float min = INFTY;
   int ind = -1;
 
-  for(int i=0; i<Q -> length; i++)
+  for(int i=0; i< n ; i++)
   {
-    if(Q.[i]>=0.0 && Q.[i]< min)
+    if(Q[i]>=0.0 && Q[i]< min)
     {
-      min= Q.[i];
+      min= Q[i];
       ind = i;
     }
   }

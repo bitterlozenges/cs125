@@ -42,17 +42,52 @@ int main(int argc, char **argv)
 	// store the sum of the weights, to be divided by numtrials later
 	float totalweight = 0;
 
-	// the array of verticies (each entry is an array)
-	float** verts = malloc(n*sizeof(float*));
-
-
-
 	// initialize the weights matrix;
 	float** weights = malloc(n*sizeof(float*));
 
 	for (int i = 0; i < n; i++)
 	{
 		weights[i] = malloc(n*sizeof(float));
+	}
+
+	// if dimension is 0, randomly generate the weights
+	if (dimension==0)
+	{
+
+		for (int t = 0; t < numtrials; t++ )
+		{
+			// populate the weights array with the euclidean distances
+			for (int i = 0; i < n; i++)
+			{
+				for(int j=0; j < i; j++)
+				{
+					float r = (float)rand()/(float)RAND_MAX;
+					weights[i][j] = r;
+					weights[j][i] = r;
+				}
+				weights[i][i] = 0;
+			}
+			// for debugging
+			printf("\nprinting weights:\n");
+			printMat(weights, n, n);
+
+			// TODO: define prim
+			float* Q = (init(n));
+
+			float treeweight = Prim(Q, weights, n);
+			totalweight += treeweight;
+		}
+
+		printf("%f %i %i %i \n", totalweight / numtrials, n, numtrials, dimension);
+		return 0;
+	}
+
+
+	// the array of verticies (each entry is an array)
+	float** verts = malloc(n*sizeof(float*));
+
+	for (int i = 0; i < n; i++)
+	{
 		verts[i] = malloc(dimension*sizeof(float));
 	}
 
@@ -99,7 +134,7 @@ int main(int argc, char **argv)
 		// TODO: define prim
 		float* Q = (init(n));
 
-		float treeweight = Prim(Q, weights, numpoints);
+		float treeweight = Prim(Q, weights, n);
 		//for debugging
 		printf("treeweight: %f\n", treeweight);
 
@@ -158,7 +193,7 @@ float Prim(float* Q, float **g, int n)
 	// remaining vertices distances from the working tree S
 	for (int j=0; j< n;j++)
 	{
-		int ind = delMin(Q);
+		int ind = delMin(Q, n);
 
 		// printf("ind: %d \n", ind);
 

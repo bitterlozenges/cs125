@@ -13,9 +13,9 @@
 /*
  * n represents number of vertices
  */
-queue init(int n);
+float* init(int n);
 
-int delMin(float* Q);
+int delMin(float* Q, int n);
 
 //decrease key of vertex at index
 void decKey(float* Q, int index, float newDist);
