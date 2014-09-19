@@ -6,16 +6,31 @@
 /*
  * n represents number of vertices
  */
-queue init(int n)
+queue init(int n, float** verts, float cutoff)
 {
   queue Q;
   Q.last = n - 1;
 
   // fill the queues with vertices
-  for (int i=0; i<n ; i++)
-  {
-    Q.heap[i] = (vertex) {INFTY , i}; 
-  }
+
+    for (int i = 0; i < n; i++)
+    {
+      Q.heap[i] = (vertex) {INFTY , i, newAdjListNode()}; 
+      for(int j=0; j < i; j++)
+      {
+        float* v1 = verts[i];
+        float* v2 = verts[j];
+        
+        // calculate the square of the distance 
+        float sq_distance = sq_dist(v1,v2,dimension);
+
+        if()
+      }
+
+    }
+
+
+
   return Q;
 }
 
@@ -82,4 +97,18 @@ void decKey(queue* Q, int index, float newDist)
   vertex v=(Q->heap)[index];  
   vertex u={newDist, v.val};
   (Q->heap)[index]= u;
+}
+
+
+
+
+ 
+// A utility function to create a new adjacency list node
+struct AdjListNode* newAdjListNode(int dest)
+{
+    struct AdjListNode* newNode =
+            (struct AdjListNode*) malloc(sizeof(struct AdjListNode));
+    newNode->dest = dest;
+    newNode->next = NULL;
+    return newNode;
 }

@@ -17,6 +17,8 @@ typedef struct vertex
 {
   float dist;
   int val;
+  AdjListNode adjacentVertices;
+
 } vertex;
 
 typedef struct queue
@@ -24,6 +26,13 @@ typedef struct queue
   int last;
   vertex heap[SIZE];
 } queue;
+
+typedef struct AdjListNode
+{
+    int val;
+    float edgeLength;
+    struct AdjListNode* next;
+};
 
 
 /*
@@ -45,6 +54,8 @@ void buildHeap(queue* Q);
 
 //decrease key of vertex at index
 void decKey(queue* Q, int index, float newDist);
+
+AdjListNode* newAdjListNode(int dest)
 
 
 #endif
