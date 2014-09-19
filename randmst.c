@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 
 
 		// TODO: define prim
-		queue q = (init(n));
+		queue q = init(n);
 		queue* Q = &q;
 
 		// populate graph Graph
@@ -154,6 +154,15 @@ void printMat(float** mat, int x_dim, int y_dim)
 	}
 }
 
+void printHeap(queue* Q, vertex* Graph)
+{
+	printf("[");
+	for (int i =0; i < Q.last; i++)
+	{
+		printf("%f, ", Graph[Q->heap[i]].distFromS);
+	}
+}
+
 float Prim(queue* Q, vertex* Graph)
 {
 	//Take seed to be the first vertex in heap array. Change its distance from the tree to be 0.
@@ -166,7 +175,7 @@ float Prim(queue* Q, vertex* Graph)
 	// remaining vertices distances from the working tree S
 	while (Q->last >= 0)
 	{
-		vertex min = delMin(Q);
+		vertex min = delMin(Q, Graph);
 		weight += sqrt(min.distFromS);
 		// grab the ptr to the adjacent verticies
 		AdjListNode* adjVerts = min.adjacentVertices;

@@ -6,7 +6,7 @@
 /*
  * n represents number of vertices
  */
-queue init(int n, float** verts, float cutoff)
+queue init(int n)
 {
   queue Q;
   Q.last = n - 1;
@@ -15,14 +15,12 @@ queue init(int n, float** verts, float cutoff)
 
     for (int i = 0; i < n; i++)
     {
-      q.heap[i]=i;
+      Q.heap[i]=i;
     }
 
   return Q;
 }
 
-//TODO: THIS SEEMS BAD PUT ON TOP YO
-void heapify(queue* Q, int index);
 
 // swaps two elements in the heap at indices v1 and v2 
 void swap(queue* Q, int v1, int v2)
@@ -56,11 +54,11 @@ void heapify(queue* Q, vertex* G, int index)
   int current = index;
 
   // if our vertex has children and the left child is smaller
-  if (left <= Q->last && G[Q->heap[left]]->distFromS < G[Q->heap[current]]->distFromS)
+  if (left <= Q->last && G[Q->heap[left]].distFromS < G[Q->heap[current]].distFromS)
   // if (left <= Q->last && (Q->heap)[left]->distFromS < (Q->heap)[current]->distFromS)
     current = left;
   // if vertex has children and the right child is smaller
-  if (right <= Q->last && G[(Q->heap)[right]]->distFromS < G[(Q->heap)[current]]->distFromS)
+  if (right <= Q->last && G[(Q->heap)[right]].distFromS < G[(Q->heap)[current]].distFromS)
     current = right;
   // if we found a smaller value, put it at the top 
   if (current != index)
@@ -74,11 +72,11 @@ void heapify(queue* Q, vertex* G, int index)
 }
 
 //technically fixHeap because the queue we're 'building' isn't really a heap
-void buildHeap(queue* Q)
+void buildHeap(queue* Q, vertex* G)
 {
   for(int i = (Q->last)/2; i>=0; i--)
   {
-    heapify(Q, i);
+    heapify(Q, G, i);
   }
 }
 

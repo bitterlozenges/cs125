@@ -43,16 +43,14 @@ typedef struct queue
 queue init(int n);
 
 //TODO: THIS SEEMS BAD PUT ON TOP YO
-void heapify(queue* Q, int index);
+void heapify(queue* Q, vertex* G, int index);
 
-void swap(vertex* v1, vertex* v2);
+void swap(queue* Q, int v1, int v2);
 
-vertex delMin(queue* Q);
-
-void heapify(queue* Q, int index);
+vertex delMin(queue* Q, vertex* G);
 
 //technically fixHeap because the queue we're 'building' isn't really a heap
-void buildHeap(queue* Q);
+void buildHeap(queue* Q, vertex* G);
 
 //decrease key of vertex at index
 void decKey(vertex* G, int index, float newDist);
