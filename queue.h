@@ -13,6 +13,14 @@
 #define INFTY 10.0
 
 
+typedef struct AdjListNode
+{
+	// index of vertex in Graph
+    int self;
+    float edgeLength;
+    struct AdjListNode* next;
+} AdjListNode;
+
 typedef struct vertex
 {
   float distFromS;
@@ -27,13 +35,6 @@ typedef struct queue
   int heap[SIZE];
 } queue;
 
-typedef struct AdjListNode
-{
-	// index of vertex in Graph
-    int self;
-    float edgeLength;
-    struct AdjListNode* next;
-};
 
 
 /*
@@ -56,7 +57,7 @@ void buildHeap(queue* Q);
 //decrease key of vertex at index
 void decKey(queue* Q, int index, float newDist);
 
-AdjListNode* newAdjListNode(int dest)
+AdjListNode* newAdjListNode(int dest);
 
 
 #endif

@@ -132,14 +132,14 @@ float Prim(queue* Q, vertex* Graph)
 		while(adjVerts!=NULL)
 		{	
 			// distance from min
-			float e = *adjVerts.edgeLength;
+			float e = adjVerts->edgeLength;
 			// index of the neighbor
-			int ind = *adjVerts.self;
+			int ind = adjVerts->self;
 			if(e < Graph[ind].distFromS)
 			{
 				decKey(Graph,ind,e);
 			}
-			adjVerts = adjVerts.next;
+			adjVerts = adjVerts->next;
 		}
 	}
 	return weight;
