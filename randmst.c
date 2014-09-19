@@ -92,7 +92,7 @@ int main(int argc, char **argv)
 						jNodePtr -> next = Graph[i].adjacentVertices;
 						Graph[i].adjacentVertices= jNodePtr;
 					}
-					if(Graph[j].adjacentVertices)
+					if(!Graph[j].adjacentVertices)
 					{
 						Graph[j].adjacentVertices=iNodePtr;
 
@@ -183,8 +183,11 @@ float Prim(queue* Q, vertex* Graph)
 		printHeap(Q,Graph);
 		weight += sqrt(min.distFromS);
 		printf("\nweight:%f\n\n", weight);
+
 		// grab the ptr to the adjacent verticies
 		AdjListNode* adjVerts = min.adjacentVertices;
+
+		// update verticies in adjVerts
 		while(adjVerts!=NULL)
 		{	
 			// distance from min
@@ -195,7 +198,9 @@ float Prim(queue* Q, vertex* Graph)
 			{
 				decKey(Graph,ind,e);
 			}
+			printf("%p\nreassignment happening\n", adjVerts);
 			adjVerts = adjVerts->next;
+			printf("%p\n", adjVerts);
 		}
 	}
 	return weight;
