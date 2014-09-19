@@ -42,20 +42,22 @@ int main(int argc, char **argv)
 	// store the sum of the weights, to be divided by numtrials later
 	float totalweight = 0;
 
+	// the array of verticies (each entry is an array)
+	float** verts = malloc(n*sizeof(float*));
+
+	// initialize the weights matrix;
+	float** weights = malloc(n*sizeof(float*));
+
+	for (int i = 0; i < n; i++)
+	{
+		weights[i] = malloc(n*sizeof(float));
+		verts[i] = malloc(dimension*sizeof(float));
+	}
+
 	// perform numtrials number of trials and add weight to totalweight
 	for (int t = 0; t < numtrials; t++ )
 	{
-		// the array of verticies (each entry is an array)
-		float** verts = malloc(n*sizeof(float*));
-
-		// initialize the weights matrix;
-		float** weights = malloc(n*sizeof(float*));
-
-		for (int i = 0; i < n; i++)
-		{
-			weights[i] = malloc(n*sizeof(float));
-			verts[i] = malloc(dimension*sizeof(float));
-		}
+		
 
 
 		// initialize the vertices array
@@ -89,8 +91,8 @@ int main(int argc, char **argv)
 			weights[i][i] = 0;
 		}
 		// for debugging
-		printf("\nprinting weights:\n");
-		printMat(weights, n, n);
+		// printf("\nprinting weights:\n");
+		// printMat(weights, n, n);
 
 		// TODO: define prim
 		queue q = (init(n));
@@ -98,21 +100,23 @@ int main(int argc, char **argv)
 
 		float treeweight = Prim(Q, weights);
 		//for debugging
-		printf("treeweight: %f\n", treeweight);
+		// printf("treeweight: %f\n", treeweight);
 
 		totalweight += treeweight;
 
-		// free willy
-		for (int i = 0; i < n; i++)
-		{
-			free(weights[i]);
-			free(verts[i]);
-		}
-
-		free(verts);
-		free(weights);
+		
 
 	}
+
+	// free willy
+	for (int i = 0; i < n; i++)
+	{
+		free(weights[i]);
+		free(verts[i]);
+	}
+
+	free(verts);
+	free(weights);
 
 	// printf("The average weight of a %i-dimensional minimum spanning tree with with %i verticies is: \n", dimension, n);
 	printf("%f %i %i %i \n", totalweight / numtrials, n, numtrials, dimension);
@@ -147,7 +151,7 @@ void printMat(float** mat, int x_dim, int y_dim)
 float Prim(queue* Q, float **g)
 {
 	//Take seed to be the first vertex in heap array. Change its distance from the tree to be 0.
-	decKey(Q, 0, 0);
+	//decKey(Q, 0, 0);
 	//delete this vertex from "v-s"
 	//delMin(Q);
 	
@@ -156,18 +160,25 @@ float Prim(queue* Q, float **g)
 
 	//while the heap isn't empty, delete the minimum element and update the
 	// remaining vertices distances from the working tree S
-	while (Q->last >=0)
+	for (int j=0; j< (Q->length);j++)
 	{
-		vertex u = delMin(Q);
-		weight += sqrt(u.dist);
-		for (int i=0; i<=Q->last; i++)
+		int ind = delMin(Q);
+
+		// printf("ind: %d \n", ind);
+
+		float min = (Q->heap)[ind];
+		(Q->heap)[ind] = -1;
+		weight += sqrt(min);
+
+		// printf("%f \n", weight);
+
+		for (int i=0; i<Q->length; i++)
 		{
-			vertex v=(Q->heap)[i];
-			float distFromU = g[v.val][u.val];
-			if(distFromU < v.dist)
-				decKey(Q,i, distFromU);
+			float distFromU = g[ind][i];
+			if(distFromU < (Q ->heap)[i])
+				//decKey(Q,i, distFromU);
+				(Q->heap)[i]=distFromU;
 		}
-		buildHeap(Q);
 	}
 	return weight;
 }	
