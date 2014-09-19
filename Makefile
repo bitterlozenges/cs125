@@ -14,10 +14,12 @@ SRCS = randmst.c queue.c
 # don't know what this does
 OBJS = $(SRCS:.c=.o)
 
+LIBS =-lm
+
 
 # random other shit from cs50 that we might need
 $(EXE): $(OBJS) $(HDRS) Makefile
-	$(CC) $(CFLAGS) -o $@ $(OBJS) 
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBS)
 
 # dependencies--tells compiler that objs depends on headers
 $(OBJS): $(HDRS) Makefile

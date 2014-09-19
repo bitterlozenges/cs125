@@ -12,7 +12,7 @@
 #include "queue.h"
 
 
-float dist(float a[], float b[], int dim);
+float sq_dist(float a[], float b[], int dim);
 
 void printMat(float** mat, int x_dim, int y_dim);
 
@@ -27,8 +27,6 @@ int main(int argc, char **argv)
 		printf("Usage: ./randmst 0 numpoints numtrials dimension\n");
 		return -1;
 	}
-
-	
 
 	//TODO: check to see these are integers
 	int dimension = atoi(argv[4]);
@@ -72,8 +70,8 @@ int main(int argc, char **argv)
 		}
 
 		// for debugging
-		printf("\nprinting verticies:\n");
-		printMat(verts, n, dimension);
+		// printf("\nprinting verticies:\n");
+		// printMat(verts, n, dimension);
 
 		// populate the weights array with the euclidean distances
 		for (int i = 0; i < n; i++)
@@ -83,12 +81,12 @@ int main(int argc, char **argv)
 				float* v1 = verts[i];
 				float* v2 = verts[j];
 				
-				// calculate the distance 
-				float distance = dist(v1,v2,dimension);
+				// calculate the square of the distance 
+				float sq_distance = sq_dist(v1,v2,dimension);
 
 				// populate weights array
-				weights[i][j] = distance;
-				weights[j][i] = distance;
+				weights[i][j] = sq_distance;
+				weights[j][i] = sq_distance;
 			}
 			weights[i][i] = 0;
 		}
@@ -101,7 +99,8 @@ int main(int argc, char **argv)
 		queue* Q = &q;
 
 		float treeweight = Prim(Q, weights);
-		printf("treeweight: %f", treeweight);
+		//for debugging
+		printf("treeweight: %f\n", treeweight);
 
 		totalweight += treeweight;
 
@@ -121,12 +120,10 @@ int main(int argc, char **argv)
 	printf("%f %i %i %i \n", totalweight / numtrials, n, numtrials, dimension);
 
 	
-
-
 }
 
 //calculates the euclidean distance between two points of dimension "dim"
-float dist(float a[], float b[], int dim)
+float sq_dist(float a[], float b[], int dim)
 {
 	float square_sum = 0;
 	for (int k=0; k < dim; k++)
@@ -134,7 +131,7 @@ float dist(float a[], float b[], int dim)
 		square_sum += pow( a[k] - b[k] , 2.0);
 	}
 
-	return sqrt(square_sum);
+	return square_sum;
 }
 
 void printMat(float** mat, int x_dim, int y_dim)
@@ -158,20 +155,17 @@ float Prim(queue* Q, float **g)
 	
 	//initialize the weight of the MST so far to 0.
 	float weight=0;
-	printf("%f\n", weight);
 
 	//while the heap isn't empty, delete the minimum element and update the
 	// remaining vertices distances from the working tree S
 	while (Q->last >=0)
 	{
 		vertex u = delMin(Q);
-		weight += u.dist;
-		printf("weight in Prim: %f\n", weight);
+		weight += sqrt(u.dist);
 		for (int i=0; i<=Q->last; i++)
 		{
 			vertex v=(Q->heap)[i];
 			float distFromU = g[v.val][u.val];
-			printf("distFromU: %f\n", distFromU);
 			if(distFromU < v.dist)
 				decKey(Q,i, distFromU);
 		}

@@ -48,19 +48,19 @@ void heapify(queue* Q, int index)
 
   int left = 2*index + 1;
   int right = 2*index + 2;
-  int last = index;
+  int current = index;
 
   // if our vertex has children and the left child is smaller
   if (left <= Q->last && (Q->heap)[left].dist < (Q->heap)[Q->last].dist)
-    last = left;
+    current = left;
   // if vertex has children and the right child is smaller
   if (right <= Q->last && (Q->heap)[right].dist < (Q->heap)[Q->last].dist)
-    last = right;
+    current = right;
   // if we found a smaller value, put it at the top 
-  if (last != index)
+  if (current != index)
   {
-    swap(&((Q->heap)[index]),&((Q->heap)[last]));
-    heapify(Q,last);
+    swap(&((Q->heap)[index]),&((Q->heap)[current]));
+    heapify(Q,current);
   }
   // if no switches were made, our heap is balanced
   return;
@@ -70,7 +70,7 @@ void heapify(queue* Q, int index)
 //technically fixHeap because the queue we're 'building' isn't really a heap
 void buildHeap(queue* Q)
 {
-  for(int i = (Q->last - 1)/2; i>=0; i--)
+  for(int i = (Q->last)/2; i>=0; i--)
   {
     heapify(Q, i);
   }
