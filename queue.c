@@ -46,21 +46,37 @@ void heapify(queue* Q, int index)
   if (Q->last < 0)
     return;
 
-  int left = 2*index + 1;
-  int right = 2*index + 2;
-  int current = index;
 
-  // if our vertex has children and the left child is smaller
-  if (left <= Q->last && (Q->heap)[left].dist < (Q->heap)[current].dist)
-    current = left;
-  // if vertex has children and the right child is smaller
-  if (right <= Q->last && (Q->heap)[right].dist < (Q->heap)[current].dist)
-    current = right;
-  // if we found a smaller value, put it at the top 
-  if (current != index)
+  int left;
+  int right;
+  int current = index;
+  bool swapMade = true;
+
+  while(swapMade)
   {
-    swap(&((Q->heap)[index]),&((Q->heap)[current]));
-    heapify(Q,current);
+    // get indices of childre
+    left = 2*index + 1;
+    right = 2*index + 2;
+    swapMade = false;
+    
+    // if our vertex has children and the left child is smaller
+    if (left <= Q->last && (Q->heap)[left].dist < (Q->heap)[current].dist)
+    {
+      current = left;
+      swapMade = true;
+    }
+    // if vertex has children and the right child is smaller
+    if (right <= Q->last && (Q->heap)[right].dist < (Q->heap)[current].dist)
+    { 
+      current = right;
+      swapMade = true;
+    }
+    // if we found a smaller value, put it at the top 
+    if (swapMade)
+    {
+      swap(&((Q->heap)[index]),&((Q->heap)[current]));
+      index = current;
+    }
   }
   // if no switches were made, our heap is balanced
   return;
