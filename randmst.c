@@ -123,7 +123,7 @@ int main(int argc, char **argv)
 		free(Graph);
 
 	}
-
+	printf("%f\n", totalweight);
 	// printf("The average weight of a %i-dimensional minimum spanning tree with with %i verticies is: \n", dimension, n);
 	printf("%f %i %i %i \n", totalweight / numtrials, n, numtrials, dimension);
 
@@ -176,13 +176,13 @@ float Prim(queue* Q, vertex* Graph)
 	// remaining vertices distances from the working tree S
 	while (Q->last >= 0)
 	{
-		printHeap(Q,Graph);
-		printf("%i", Q->last);
+		// printHeap(Q,Graph);
+		// printf("%i", Q->last);
 		vertex min = delMin(Q, Graph);
-		printf("\ndelMin happening. returns %f\n", sqrt(min.distFromS));
-		printHeap(Q,Graph);
+		// printf("\ndelMin happening. returns %f\n", sqrt(min.distFromS));
+		// printHeap(Q,Graph);
 		weight += sqrt(min.distFromS);
-		printf("\nweight:%f\n\n", weight);
+		// printf("\nweight:%f\n\n", weight);
 
 		// grab the ptr to the adjacent verticies
 		AdjListNode* adjVerts = min.adjacentVertices;
@@ -198,9 +198,8 @@ float Prim(queue* Q, vertex* Graph)
 			{
 				decKey(Graph,ind,e);
 			}
-			printf("%p\nreassignment happening\n", adjVerts);
 			adjVerts = adjVerts->next;
-			printf("%p\n", adjVerts);
+			buildHeap(Q, Graph);
 		}
 	}
 	return weight;
