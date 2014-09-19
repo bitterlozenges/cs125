@@ -9,20 +9,13 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#define SIZE 65356
+#define SIZE 65536
 #define INFTY 10.0
-
-
-typedef struct vertex
-{
-  float dist;
-  int val;
-} vertex;
 
 typedef struct queue
 {
-  int last;
-  vertex heap[SIZE];
+  int length;
+  float heap[SIZE];
 } queue;
 
 
@@ -31,17 +24,7 @@ typedef struct queue
  */
 queue init(int n);
 
-//TODO: THIS SEEMS BAD PUT ON TOP YO
-void heapify(queue* Q, int index);
-
-void swap(vertex* v1, vertex* v2);
-
-vertex delMin(queue* Q);
-
-void heapify(queue* Q, int index);
-
-//technically fixHeap because the queue we're 'building' isn't really a heap
-void buildHeap(queue* Q);
+int delMin(queue* Q);
 
 //decrease key of vertex at index
 void decKey(queue* Q, int index, float newDist);

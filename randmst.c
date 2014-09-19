@@ -153,7 +153,7 @@ void printMat(float** mat, int x_dim, int y_dim)
 float Prim(queue* Q, float **g)
 {
 	//Take seed to be the first vertex in heap array. Change its distance from the tree to be 0.
-	decKey(Q, 0, 0);
+	//decKey(Q, 0, 0);
 	//delete this vertex from "v-s"
 	//delMin(Q);
 	
@@ -162,18 +162,25 @@ float Prim(queue* Q, float **g)
 
 	//while the heap isn't empty, delete the minimum element and update the
 	// remaining vertices distances from the working tree S
-	while (Q->last >=0)
+	for (int j=0; j< (Q->length);j++)
 	{
-		vertex u = delMin(Q);
-		weight += sqrt(u.dist);
-		for (int i=0; i<=Q->last; i++)
+		int ind = delMin(Q);
+
+		// printf("ind: %d \n", ind);
+
+		float min = (Q->heap)[ind];
+		(Q->heap)[ind] = -1;
+		weight += sqrt(min);
+
+		// printf("%f \n", weight);
+
+		for (int i=0; i<Q->length; i++)
 		{
-			vertex v=(Q->heap)[i];
-			float distFromU = g[v.val][u.val];
-			if(distFromU < v.dist)
-				decKey(Q,i, distFromU);
+			float distFromU = g[ind][i];
+			if(distFromU < (Q ->heap)[i])
+				//decKey(Q,i, distFromU);
+				(Q->heap)[i]=distFromU;
 		}
-		buildHeap(Q);
 	}
 	return weight;
 }	
