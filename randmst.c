@@ -91,8 +91,8 @@ int main(int argc, char **argv)
 			weights[i][i] = 0;
 		}
 		// for debugging
-		printf("\nprinting weights:\n");
-		printMat(weights, n, n);
+		// printf("\nprinting weights:\n");
+		// printMat(weights, n, n);
 
 		// TODO: define prim
 		queue q = (init(n));
@@ -100,7 +100,7 @@ int main(int argc, char **argv)
 
 		float treeweight = Prim(Q, weights);
 		//for debugging
-		printf("treeweight: %f\n", treeweight);
+		// printf("treeweight: %f\n", treeweight);
 
 		totalweight += treeweight;
 
