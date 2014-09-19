@@ -48,8 +48,6 @@ int main(int argc, char **argv)
 		// the array of verticies (each entry is an array)
 		float** verts = malloc(n*sizeof(float*));
 
-
-
 		// initialize the weights matrix;
 		float** weights = malloc(n*sizeof(float*));
 
