@@ -15,7 +15,7 @@
 
 typedef struct vertex
 {
-  float dist_from_S;
+  float distFromS;
   AdjListNode* adjacentVertices;
 
 } vertex;
@@ -23,13 +23,13 @@ typedef struct vertex
 typedef struct queue
 {
   int last;
-  // contains the indicies of vertex in verts[]
+  // contains the indicies of vertex in Graph
   int heap[SIZE];
 } queue;
 
 typedef struct AdjListNode
 {
-	// contains the index of vertex in verts[]
+	// index of vertex in Graph
     int self;
     float edgeLength;
     struct AdjListNode* next;

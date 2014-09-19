@@ -92,11 +92,9 @@ void buildHeap(queue* Q)
 }
 
 //decrease key of vertex at index
-void decKey(queue* Q, int index, float newDist)
+void decKey(vertex* Graph, int index, float newDist)
 {
-  vertex v=(Q->heap)[index];  
-  vertex u={newDist, v.val};
-  (Q->heap)[index]= u;
+  Graph[index].distFromS = newDist;
 }
 
 
