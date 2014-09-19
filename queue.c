@@ -37,22 +37,23 @@ queue init(int n, float** verts, float cutoff)
 //TODO: THIS SEEMS BAD PUT ON TOP YO
 void heapify(queue* Q, int index);
 
-void swap(vertex* v1, vertex* v2)
+void swap(queue* Q, int v1, int v2)
 {
-  vertex temp = *v1;
-  *v1 = *v2;
-  *v2 = temp;
+  vertex* temp = Q->heap[v1];
+  Q->heap[v1] = Q->heap[v2];
+  Q->heap[v2] = temp;
 }
 
-
+// deletes the root of the heap and returns the vertex the root points to
 vertex delMin(queue* Q)
 {
-  vertex min = (Q->heap)[0];
+  vertex* min = (Q->heap)[0];
   // passes into swap the address of the root of Q and the last leaf
-  swap(&(Q->heap)[0],&(Q->heap)[Q->last]);
+  // swap(&(Q->heap)[0],&(Q->heap)[Q->last]);
+  swap(Q, 0, Q->last);
   Q->last -= 1;
   heapify(Q,0);
-  return min;
+  return *min;
 }
 
 void heapify(queue* Q, int index)
@@ -67,14 +68,15 @@ void heapify(queue* Q, int index)
 
   // if our vertex has children and the left child is smaller
   if (left <= Q->last && (Q->heap)[left].dist < (Q->heap)[current].dist)
+  if (left <= Q->last && (Q->heap)[left]->distFromS < (Q->heap)[current]->distFromS)
     current = left;
   // if vertex has children and the right child is smaller
-  if (right <= Q->last && (Q->heap)[right].dist < (Q->heap)[current].dist)
+  if (right <= Q->last && (Q->heap)[right]->distFromS < (Q->heap)[current]->distFromS)
     current = right;
   // if we found a smaller value, put it at the top 
   if (current != index)
   {
-    swap(&((Q->heap)[index]),&((Q->heap)[current]));
+    swap(Q, current, index);
     heapify(Q,current);
   }
   // if no switches were made, our heap is balanced
