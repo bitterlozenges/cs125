@@ -10,7 +10,7 @@
 #include <time.h>
 #include <math.h>
 #include "queue.h"
-#define INFTY 10.0
+#define INFTY 100.0
 
 
 float sq_dist(float a[], float b[], int dim);
@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 	// store the sum of the weights, to be divided by numtrials later
 	float totalweight = 0;
 
-	float cutoff= 3.0*sqrt(((float)dimension)/((float) n+1));
+	float cutoff= 9.0*((float)dimension)/((float) n+1);
 
 	// perform numtrials number of trials and add weight to totalweight
 	for (int t = 0; t < numtrials; t++ )
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
 				if(squareDistance<cutoff)
 				{
 					AdjListNode* jNodePtr= newAdjListNode(j, squareDistance);
-					AdjListNode* iNodePtr= newAdjListNode(j, squareDistance);
+					AdjListNode* iNodePtr= newAdjListNode(i, squareDistance);
 					if(!Graph[i].adjacentVertices)
 					{
 						Graph[i].adjacentVertices=jNodePtr;
@@ -157,10 +157,11 @@ void printMat(float** mat, int x_dim, int y_dim)
 void printHeap(queue* Q, vertex* Graph)
 {
 	printf("[");
-	for (int i =0; i < Q.last; i++)
+	for (int i =0; i <= Q->last; i++)
 	{
 		printf("%f, ", Graph[Q->heap[i]].distFromS);
 	}
+	printf("]");
 }
 
 float Prim(queue* Q, vertex* Graph)
@@ -175,8 +176,13 @@ float Prim(queue* Q, vertex* Graph)
 	// remaining vertices distances from the working tree S
 	while (Q->last >= 0)
 	{
+		printHeap(Q,Graph);
+		printf("%i", Q->last);
 		vertex min = delMin(Q, Graph);
+		printf("\ndelMin happening. returns %f\n", sqrt(min.distFromS));
+		printHeap(Q,Graph);
 		weight += sqrt(min.distFromS);
+		printf("\nweight:%f\n\n", weight);
 		// grab the ptr to the adjacent verticies
 		AdjListNode* adjVerts = min.adjacentVertices;
 		while(adjVerts!=NULL)
