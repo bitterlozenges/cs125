@@ -61,15 +61,13 @@ int main(int argc, char **argv)
 			{
 				for(int j=0; j < i; j++)
 				{
-					float r = (float)rand()/(float)RAND_MAX;
+					float r = pow((float)rand()/(float)RAND_MAX, 2);
 					weights[i][j] = r;
 					weights[j][i] = r;
 				}
+
 				weights[i][i] = 0;
 			}
-			// for debugging
-			printf("\nprinting weights:\n");
-			printMat(weights, n, n);
 
 			// TODO: define prim
 			float* Q = (init(n));
@@ -135,8 +133,6 @@ int main(int argc, char **argv)
 		float* Q = (init(n));
 
 		float treeweight = Prim(Q, weights, n);
-		//for debugging
-		printf("treeweight: %f\n", treeweight);
 
 		totalweight += treeweight;
 

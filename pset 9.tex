@@ -1,0 +1,125 @@
+\documentclass{article}
+\usepackage[top=.5 in, bottom = .5 in, left = .7 in, right = .7 in ]{geometry}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{MnSymbol}
+\usepackage{mathtools}
+\usepackage{braket}
+\usepackage{relsize}
+\usepackage{tikz}
+\newcommand{\ovr}[1]{\overrightarrow{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\singd}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\dubd}[2]{\dfrac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\mixd}[3]{\dfrac{\partial^2 #1}{\partial #2 \partial #3}}
+\newcommand{\dd}{\partial}
+\newcommand{\lims}[2]{\lim_{#1\to#2}}
+\newcommand{\w}{\omega}
+\newcommand{\y}{\gamma}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+
+\title{CS 125 - 9}
+\author{Tiffany (Haotian) Wu}
+\date{November 2014}
+
+
+\newtheorem{lemma}{Lemma}[section]
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem 1}
+\begin{enumerate}[label=(\alph*)]
+%1a
+\item Undecidable by Rice's Theorem. 
+
+First, this set is certainly a subset of the r.e. languages , since we can just run the TM M on the empty string, and if $\sigma$ is ever written, then we accept.
+
+This set and the complement are both clearly nonempty - trivially, we have the Turing machine that writes $\sigma$ on seeing the empty string and immediately halts, as well as the Turing machine that immediately halts and doesn't write anything, which are elements of this set and the complement, respectively. Thus, we're done by Rice's.
+
+
+
+%1b
+\item
+Undecideable by Rice's Thm. This is clearly a subset of r.e., because we can recognize when M writes a nonblank symbol to the tape when run on the empty string. 
+An element of this set is the Turing Machine that writes a single letter $\sigma$ no matter what and then halts.
+
+An element of the complement is the TM that immediately halts (or writes one blank and then halts).
+
+By Rice's, we are done.
+
+%1c
+\item
+Undecidable, by Rice's again. If this was decidable, then we could also decide this for a particular m, say m=2. Then this becomes the question of whether $M$ accepts only strings whose length is a multiple of 2. 
+
+However, by Rice's we have that that is not true. This is clearly a subset of r.e. One element of this set is the TM that accepts only strings whose length is a multiple of 2.  One element of the complement is the TM that halts and accepts only strings whose length is 1. Then we're done.
+
+
+%1d
+\item
+Since all languages recognized by TMs are countable (since languagese a subset of the set of all possible strings, which is countable), then we can simply always accept.
+
+
+\end{enumerate}
+
+
+
+\section*{Problem 2}
+\begin{enumerate}[label=(\alph*)]
+%2a
+\item 
+Since programs can be written as Turing Machines, we can use Rice's Theorem. Clearly, given a program and a string, we can determine whether or not we write out of bounds, so this set is a subset of r.e. 
+
+An element in this set would be the program that does nothing, and therefore clearly does not write out of bounds.
+
+An element in the complement would be a program that immediately attempts to write outside the bounds of memory.
+
+Thus, by Rice's Theorem, we're done.
+
+
+%2b
+\item
+We can simply ensure that we MALLOC $2^w$ before running the program and also when incrementing the word size.
+
+How do we know this is only a constant-time blowup? 
+
+
+\end{enumerate}  
+ 
+  
+ 
+\section*{Problem 3}
+It's clearly decideable - we run it for a maximum of $2^k$ moves and if it rejects before then, then accept. If not, reject
+
+Now all that remains is to prove that it's not decideable in polynomial time.
+We can reduce from $L$ with a polynomial mapping - that way, if we prove that $L$ is not decidable in poly-time, then if BH is decidable in poly-time, we could just poly-map and then use BH's decider to decide in poly time, which would be a contradiction.
+
+The mapping from $L$ to $BH$ is done by modifying Turing Machine $M$ to $M'$ that behaves exactly the same except, right before M is about to accept, enter an infinite loop. Here, $a^k$ can be mapped to $w$ and $k$ is simply $1$ concatenated with $t$ 0's (we can determine this easily since there is a $\#$ symbol separating the $M$ from the string of a's. 
+
+Then, because of the way we've constructed $M'$, the only time we halt is if we reject before $2^t$ moves. It's easily seen that it's an if and only if.
+
+Now, we need only to prove that $L$ cannot be done in poly time. But since we cannot determine whether or not any arbitrary TM will reject in less than $2^t$ moves without running it for $2^t$ moves of the TM, and $2^t$ is exponential in the length of the input $M\#a^t$, since for any fixed $M$ we can choose $t$ to be large enough such that the runtime is exponential. 
+
+Thus, we are done. 
+
+
+\section*{Problem 4}
+We can reduce from the problem of $HALT_{TM}^{M_0}$, which we know to be undecideable from Prop 17.3.
+
+We can use the same reduction that we did for the Tiling problem in class, except now we allow the input of $w$ after $q_0$ in the first non-hash row. Since we know there exists a TM $M_0$ such that the problem is undecidable, we fix that $M_0$. Since $M_0$ has a fixed tape alphabet $\Gamma_0$ and also a fixed set of states $Q$, then the total number of different characters that can appear in any square of the $2x3$ tableau is a constant $K = |Q| + |\Gamma_0|+1$ (if $\#$ is not included in the tape alphabet). Thus, the number of colors is bounded by a constant $c = K^4+K^3$, since each color is either det. by a 2x2 blocky or a 1x3 block. 
+
+By the same logic as the reduction from class, we realize that we can only complete tiling iff there is no accepting configuration. Thus, if this is decidable, so is $HALT_{TM}^{M_0}$. Contradictiton. And we even got the restriction to $c = K^4+K^3$ colors.  
+
+
+
+
+\end{document}
+
